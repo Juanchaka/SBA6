@@ -65,6 +65,9 @@ const createComment = async (req, res) => {
 
     const comment = await Comment.create({ author, content, post, createdAt });
 
+    await comment.validate(); // This line will trigger validation
+    await comment.save();
+
     const populatedComment = await Comment.findById(comment._id)
       .populate('author', 'username')
       .populate('post', 'title');

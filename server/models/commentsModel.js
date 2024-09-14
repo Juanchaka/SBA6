@@ -19,7 +19,14 @@ const commentSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    validate: {
+      validator: function(value) {
+        return value <= Date.now();
+      },
+      message: 'Creation date cannot be in the future'
+    }
+
   }
 }, {timestamps: true});
 
