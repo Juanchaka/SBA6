@@ -1,8 +1,8 @@
 const express = require("express");
 const {
-  createComment,
   getComments,
   getComment,
+  createComment,
   deleteComment,
   updateComment,
 } = require("../controllers/commentsController");

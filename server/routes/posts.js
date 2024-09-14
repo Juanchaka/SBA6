@@ -1,24 +1,22 @@
 const express = require('express')
-const router = express.Router()
-
-router.get('/', (req, res) => {
-    res.json({message: "GET all posts"})
-})
-
-router.get('/:id', (req, res) => {
-    res.json({message: "GET one post"})
-})
-
-router.post('/', (req, res) => {
-    res.json({message: "POST one post"})
-})
-
-router.delete('/:id', (req, res) => {
-    res.json({message: "DELETE one post"})
-})
-
-router.patch('/:id', (req, res) => {
-    res.json({message: "UPDATE one post"})
-})
+const {
+    getPosts,
+    getPost,
+    createPost,
+    deletePost,
+    updatePostt,
+  } = require("../controllers/postsController");
+  
+  const router = express.Router();
+  
+  router.get("/", getPosts);
+  
+  router.get("/:id", getPost);
+  
+  router.post("/", createPost);
+  
+  router.delete("/:id", deletePost);
+  
+  router.patch("/:id", updatePostt);
 
 module.exports = router
