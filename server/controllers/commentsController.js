@@ -29,10 +29,10 @@ const getComment = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  const { author, content, createdAt } = req.body;
+  const { author, content, post, createdAt } = req.body;
 
   try {
-    const comment = await Comment.create({ author, content, createdAt });
+    const comment = await Comment.create({ author, content, post, createdAt });
     res.status(200).json(comment);
   } catch (err) {
     res.status(500).json({ message: err.message });
