@@ -3,14 +3,34 @@ const User = require("../models/usersModel");
 
 const mongoose = require("mongoose");
 
+// const getPosts = async (req, res) => {
+//   try {
+//     const posts = await Post.find({}).sort({ createdAt: -1 });
+//     res.status(200).json(posts);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 const getPosts = async (req, res) => {
+  const { username } = req.query;
+
   try {
+    if (username) {
+      const user = await User.findOne({ username });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const posts = await Post.find({ author: user._id }).sort({ createdAt: -1 });
+      return res.status(200).json(posts);
+    }
+
     const posts = await Post.find({}).sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 const getPost = async (req, res) => {
   const { id } = req.params;
