@@ -10,9 +10,7 @@ const router = express.Router()
 
 router.get('/', getComments)
 
-router.get('/:id', (req, res) => {
-    res.json({message: "GET one comment"})
-})
+router.get('/:id', getComment)
 
 router.post('/', createComment)
 

@@ -1,16 +1,21 @@
 const Comment = require("../models/commentsModel");
+const mongoose = require('mongoose')
+
 
 const getComments = async (req, res) => {
   try {
     const comments = await Comment.find({}).sort({ createdAt: -1 });
     res.status(200).json(comments);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 const getComment = async (req, res) => {
     const { id } = req.params
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: `No comment with id: '${id}' exists`})
+    }
     try {
       const comment = await Comment.findById(id)
       if(!comment) {
@@ -29,7 +34,7 @@ const createComment = async (req, res) => {
     const comment = await Comment.create({ author, content, createdAt });
     res.status(200).json(comment);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
