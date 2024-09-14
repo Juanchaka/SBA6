@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const commentsSchema = new Schema(
   {
+    author: {
+      type: String,
+      required: true,
+    },
     content: {
       type: String,
       required: true,
       trim: true,
-    },
-    author: {
-      type: String,
-      required: true,
     },
     createdAt: {
       type: Date,

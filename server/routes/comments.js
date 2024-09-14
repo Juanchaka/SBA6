@@ -11,10 +11,10 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const { content, author, createdAt } = req.body
+    const { author, content, createdAt } = req.body
 
     try {
-        const comment = await Comment.create({content, author, createdAt})
+        const comment = await Comment.create({author, content, createdAt})
         res.status(200).json(comment)
     } catch (err) {
         res.status(400).json({message: err.message})
