@@ -1,4 +1,5 @@
 const express = require('express')
+const Comment = require('../models/commentsModels')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -9,8 +10,15 @@ router.get('/:id', (req, res) => {
     res.json({message: "GET one comment"})
 })
 
-router.post('/', (req, res) => {
-    res.json({message: "POST one comment"})
+router.post('/', async (req, res) => {
+    const { content, author, createdAt } = req.body
+
+    try {
+        const comment = await Comment.create({content, author, createdAt})
+        res.status(200).json(comment)
+    } catch (err) {
+        res.status(400).json({message: err.message})
+    }
 })
 
 router.delete('/:id', (req, res) => {
