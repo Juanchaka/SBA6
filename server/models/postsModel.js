@@ -22,5 +22,11 @@ const postSchema = new Schema({
   }
 }, {timestamps: true});
 
+// Create an index on 'author' for faster queries by user
+postSchema.index({ author: 1 });
+
+// Create an index on 'createdAt' for efficient sorting
+postSchema.index({ createdAt: -1 });
+
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;
