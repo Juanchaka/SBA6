@@ -21,7 +21,7 @@ Technologies Used:
 - MongoDB with Mongoose
 
 SETUP
-Prerequisits
+Prerequisites
 
 - Node.js
 - MongoDB
