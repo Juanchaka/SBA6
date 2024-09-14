@@ -1,4 +1,6 @@
 const Post = require("../models/postsModel");
+const User = require("../models/usersModel");
+
 const mongoose = require("mongoose");
 
 const getPosts = async (req, res) => {
@@ -29,15 +31,38 @@ const getPost = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const { title, author, content, createdAt } = req.body;
+  const { title, username, content, createdAt } = req.body;
 
+  if (!title || !username || !content) {
+    return res.status(400).json({ message: 'Missing required fields: title, username, and content' });
+  }
+  
   try {
-    const post = await Post.create({ title, author, content, createdAt });
-    res.status(200).json(post);
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const post = await Post.create({ title, author: user._id, content, createdAt });
+
+    const populatedPost = await Post.findById(post._id).populate('author', 'username');
+
+    res.status(201).json(populatedPost);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+// const createPost = async (req, res) => {
+//   const { title, author, content, createdAt } = req.body;
+
+//   try {
+//     const post = await Post.create({ title, author, content, createdAt });
+//     res.status(200).json(post);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 
 const deletePost = async (req, res) => {
   const { id } = req.params;
